@@ -12,13 +12,12 @@ class Player(GomokuAgent):
 			return True
 	
 	def utility(self,board):
-		if self.terminalTest(board):
-			if mis.winningTest(self.ID,board,self.X_IN_A_LINE):
-				return self.ID
-			elif mis.winningTest(-1*self.ID,board,self.X_IN_A_LINE):
-				return -1 * self.ID
-			else:
-				return 0.5
+		if mis.winningTest(self.ID,board,self.X_IN_A_LINE):
+			return self.ID
+		elif mis.winningTest(-1*self.ID,board,self.X_IN_A_LINE):
+			return -1 * self.ID
+		else:
+			return 0.5
 	def actions(self,board):
 		legalMoves = []
 		for r in range(self.BOARD_SIZE):
@@ -27,27 +26,27 @@ class Player(GomokuAgent):
 					legalMoves.append((r,c))
 		return legalMoves
 
-	def makeMove(self,board,move):
+	def makeMove(self,board,move,player):
 		newBoard = np.array(board)
-		newBoard[move[0]][move[1]] = self.ID
+		newBoard[move[0]][move[1]] = player
 		return newBoard
 
-	def maxFunct(self,board):
+	def maxFunct(self,board,modifier):
 		if self.terminalTest(board):
 			return self.utility(board)
 		legalMoves = self.actions(board)
 		mxx = -1000
 		for move in legalMoves:
-			mxx = max(mxx,self.minFunct(self.makeMove(board,move)))
+			mxx = max(mxx,self.minFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1))
 		return mxx
 
-	def minFunct(self,board):
+	def minFunct(self,board,modifier):
 		if self.terminalTest(board):
 			return self.utility(board)
 		legalMoves = self.actions(board)
 		mnn = 1000
 		for move in legalMoves:
-			mnn = min(mnn,self.maxFunct(self.makeMove(board,move)))
+			mnn = min(mnn,self.maxFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1))
 		return mnn
 
         #return a tuple with the move
@@ -57,16 +56,16 @@ class Player(GomokuAgent):
 			maxSoFar = -1000
 			actionToReturn = None
 			for action in legalMoves:
-				maxForThisAction = self.maxFunct(self.makeMove(board,action))
+				maxForThisAction = self.minFunct(self.makeMove(board,action,self.ID),-1)
 				if  maxForThisAction> maxSoFar:
 					actionToReturn = action
-					maxSoFar = maxForThisAction
+					maxSoFar = maxForThisAction		
 			return actionToReturn
 		if self.ID == -1:
 			minSoFar = 1000
 			actionToReturn = None
 			for action in legalMoves:
-				minForThisAction = self.minFunct(self.makeMove(board,action))
+				minForThisAction = self.maxFunct(self.makeMove(board,action,self.ID),-1)
 				if minForThisAction < minSoFar:
 					actionToReturn = action
 					minSoFar = minForThisAction

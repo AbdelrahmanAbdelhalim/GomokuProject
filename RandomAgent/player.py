@@ -16,5 +16,5 @@ class Player(GomokuAgent):
 
 	def move(self,board):
 		legalMoves = self.actions(board)
-		mv = rand.randint(0,len(legalMoves))
+		mv = rand.randint(0,len(legalMoves)-1)
 		return legalMoves[mv]
