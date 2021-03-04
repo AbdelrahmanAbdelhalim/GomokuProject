@@ -31,41 +31,47 @@ class Player(GomokuAgent):
 		newBoard[move[0]][move[1]] = player
 		return newBoard
 
-	def maxFunct(self,board,modifier):
+	def maxFunct(self,board,modifier,alpha,beta):
 		if self.terminalTest(board):
 			return self.utility(board)
 		legalMoves = self.actions(board)
 		mxx = -1000
 		for move in legalMoves:
-			mxx = max(mxx,self.minFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1))
+			mxx = max(mxx,self.minFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1,alpha,beta))
+			if mxx >= alpha:
+				return mxx
+			alpha = max(mxx,alpha)
 		return mxx
 
-	def minFunct(self,board,modifier):
+	def minFunct(self,board,modifier,alpha,beta):
 		if self.terminalTest(board):
 			return self.utility(board)
 		legalMoves = self.actions(board)
 		mnn = 1000
 		for move in legalMoves:
-			mnn = min(mnn,self.maxFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1))
+			mnn = min(mnn,self.maxFunct(self.makeMove(board,move,self.ID*modifier),modifier*-1,alpha,beta))
+			if mnn <= beta:
+				return mnn
+			beta = min(mnn,beta)
 		return mnn
 
         #return a tuple with the move
 	def move(self,board):
 		legalMoves = self.actions(board)
 		if self.ID == 1:
-			maxSoFar = -1000
+			mxxSoFar = -1000
 			actionToReturn = None
 			for action in legalMoves:
-				maxForThisAction = self.minFunct(self.makeMove(board,action,self.ID),-1)
-				if  maxForThisAction> maxSoFar:
+				mxxForThisAction = self.maxFunct(self.makeMove(board,action,self.ID),-1,-1000,1000)
+				if mxxForThisAction > mxxSoFar:
 					actionToReturn = action
-					maxSoFar = maxForThisAction		
+					mxxSoFar = mxxForThisAction
 			return actionToReturn
 		if self.ID == -1:
 			minSoFar = 1000
 			actionToReturn = None
 			for action in legalMoves:
-				minForThisAction = self.maxFunct(self.makeMove(board,action,self.ID),-1)
+				minForThisAction = self.minFunct(self.makeMove(board,action,self.ID),-1,-1000,1000)
 				if minForThisAction < minSoFar:
 					actionToReturn = action
 					minSoFar = minForThisAction
