@@ -1,3 +1,10 @@
+'''
+Author: Abdelrahman Abdelhalim (988156)
+All the code has been written and tested by Abdelrahman Abdelhalim (988156)
+Unfortunately due to some health issues (Catching COVID and an ear infection) that I failed to report in time for this coursework, I did not manage to come up with a better solution. The program can play the gameon an 11 by 11 board, however it is not very optimal with a very simple evaluation function. The Program might also timeout for longer games.
+
+The Algorithm starts off with a list of moves that are close to 
+'''
 from gomokuAgent import GomokuAgent
 import misc as mis
 import numpy as np
@@ -45,12 +52,12 @@ class Player(GomokuAgent):
 		return legalMoves
 
 	def evaluate(self,board):
-		if mis.winningTest(self.ID,board,3):
-			return self.ID*3
-		if mis.winningTest(-1*self.ID,board,3):
-			return -1*self.ID*3
+		if mis.winningTest(self.ID,board,2):
+			return self.ID*2
+		if mis.winningTest(-1*self.ID,board,2):
+			return -1*self.ID*2
 		else:
-			return 2*self.ID
+			return 1.5*self.ID
 
 	def makeMove(self,board,move,player):
 		newBoard = np.copy(board)
@@ -101,6 +108,8 @@ class Player(GomokuAgent):
     #return a tuple with the move
 	def move(self,board):
 		legalMoves = self.selectLegalMoves(board,self.actions(board))
+		if len(legalMoves) == 0:
+				legalMoves.append((5,5))
 		if self.ID == 1:
 			mxxSoFar = -1000
 			actionToReturn = None
