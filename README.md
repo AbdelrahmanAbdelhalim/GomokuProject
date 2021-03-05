@@ -16,13 +16,22 @@ This coursework involves building an AI agent that can play the Gomoku Game. Thi
 * minimax was working just fine, I spent years debugging a stupid bug with Alpha Beta pruning
 * Working on evaluation function and depth cut off now to play on bigger board
 ------------
+Minimum coursework ready for sumbission. Due to time constraint and health issues, the solution is very minimalistic and can be improved. Ways to improve the algorithm are discussed below.
 
-## Work that needs to be done:
-* Fixing the minmax algoritm (DONE)
-* Writing algorithm for pruing (DONE)
-* Evaluation and Depth Cut Off
+The Algorithm starts off with a list of moves that are close to a move that has been made by either players on the board
+It then proceeds through the minimax algorithm, with a depth cutoff of 2 which is very bad considering how little time I had to construct a solution
+The evaluation funtion discourages when the opponent has 3 stones in a row and encourages when the agent has 3 stones in a row
+This results in semeingly a very defensive behavior by the AI
 
-## Notes:
-* The coursework will be submitted as soon as the agent is able to play games on the full 11x11 board
-* Further optimization will be done and submitted afterwards
+With more time we could try improving the algorithm by doing the following:
+* Developnig a better evaluation function
+* Developing a transposition lookup table
+* Looking into initial node selection in a better way
+* Optimizing the low level computations that don't impact decision making
+
+## Future Work:
+* Developnig a better evaluation function
+* Developing a transposition lookup table
+* Looking into initial node selection in a better way
+* Optimizing the low level computations that don't impact decision making 
 
