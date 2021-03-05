@@ -177,12 +177,7 @@ class Player(GomokuAgent):
 				selectedLegalMoves.append(move)
 		return selectedLegalMoves
 
-	
-    '''
-    Entry point to the program
-    Parameters:
-    1.board: The current position
-	'''
+
 	def move(self,board):
 		legalMoves = self.selectLegalMoves(board,self.actions(board))
 		if len(legalMoves) == 0:
