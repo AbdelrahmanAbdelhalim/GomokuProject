@@ -1,10 +1,14 @@
 '''
+Submission for group:
+1. Abdelrahman Abdelhalim (988156)
+2. Yassine ABDALLAS (940878)
+
 Author: Abdelrahman Abdelhalim (988156)
 All the code has been written and tested by Abdelrahman Abdelhalim (988156)
 Unfortunately due to some health issues (Catching COVID and an ear infection) that I failed to report in time for this coursework, I did not manage to come up with a better solution. The program can play the gameon an 11 by 11 board, however it is not very optimal with a very simple evaluation function. The Program might also timeout for longer games.
 
 The Algorithm starts off with a list of moves that are close to a move that has been made by either players on the board
-It then proceeds through the minimax algorithm, with a depth cutoff of 2 which is very bad considering how little time I had to construct a solution
+It then proceeds through the minimax algorithm, with a depth cutoff of 2 which is very bad given how little time I had to construct a solution
 The evaluation funtion discourages when the opponent has 3 stones in a row and encourages when the agent has 3 stones in a row
 This results in semeingly a very defensive behavior by the AI
 
